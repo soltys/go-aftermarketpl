@@ -3,7 +3,6 @@ package aftermarketpl
 import (
 	"bytes"
 	"io/ioutil"
-	"log"
 	"net/http"
 
 	"github.com/google/go-querystring/query"
@@ -42,8 +41,6 @@ func (a *Aftermarketpl) Send(command string, params interface{}) ([]byte, error)
 	if err != nil {
 		return nil, err
 	}
-
-	log.Printf(string(requestBody.Encode()))
 
 	request, err := http.NewRequest("POST", requestURL, bytes.NewBufferString(requestBody.Encode()))
 
