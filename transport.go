@@ -1,10 +1,10 @@
 package aftermarketpl
 
 import (
-	"http"
+	"net/http"
 	"io/ioutil"
-	"json"
-	"log"
+	"encoding/json"
+	"bytes"
 )
 
 type Aftermarketpl struct {
@@ -38,7 +38,7 @@ func (a *Aftermarketpl) Send(command string, params interface{}) ([]byte, error)
 		return nil, err
 	}
 
-	request, err := http.NewRequest("POST", requestURL, requestBody)
+	request, err := http.NewRequest("POST", requestURL, bytes.NewBuffer(requestBody))
 
 	if err != nil {
 		return nil, err
