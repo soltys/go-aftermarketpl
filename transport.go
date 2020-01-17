@@ -15,6 +15,13 @@ type Aftermarketpl struct {
 	secret string
 }
 
+type aftermarketResponse struct {
+	Ok     int         `json:"ok"`
+	Status int         `json:"status"`
+	Error  string      `json:"error"`
+	Data   interface{} `json:"data"`
+}
+
 //New creates new instace of Aftermarketpl struct with default URL
 func New(key, secret string) *Aftermarketpl {
 	return &Aftermarketpl{
