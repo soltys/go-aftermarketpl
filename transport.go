@@ -39,11 +39,13 @@ func (a *Aftermarketpl) Send(command string, params interface{}) ([]byte, error)
 	}
 
 	request, err := http.NewRequest("POST", requestURL, bytes.NewBuffer(requestBody))
-	request.SetBasicAuth(a.key, a.secret)
 
 	if err != nil {
 		return nil, err
 	}
+
+	request.Header.Set("Content-Type", "application/json")
+	request.SetBasicAuth(a.key, a.secret)
 
 	client := &http.Client{}
 
