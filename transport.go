@@ -1,10 +1,10 @@
 package aftermarketpl
 
 import (
-	"net/http"
-	"io/ioutil"
-	"encoding/json"
 	"bytes"
+	"encoding/json"
+	"io/ioutil"
+	"net/http"
 )
 
 type Aftermarketpl struct {
@@ -31,7 +31,7 @@ func NewCustomUrl(key, secret, url string) *Aftermarketpl {
 
 func (a *Aftermarketpl) Send(command string, params interface{}) ([]byte, error) {
 	requestURL := a.url + command
-	
+
 	requestBody, err := json.Marshal(params)
 
 	if err != nil {
@@ -39,6 +39,7 @@ func (a *Aftermarketpl) Send(command string, params interface{}) ([]byte, error)
 	}
 
 	request, err := http.NewRequest("POST", requestURL, bytes.NewBuffer(requestBody))
+	request.SetBasicAuth(a.key, a.secret)
 
 	if err != nil {
 		return nil, err
