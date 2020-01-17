@@ -8,6 +8,7 @@ import (
 
 	"github.com/google/go-querystring/query"
 )
+
 //Aftermarketpl structs holds information neede to perform API request
 type Aftermarketpl struct {
 	url    string
