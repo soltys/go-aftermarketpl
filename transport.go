@@ -1,18 +1,21 @@
 package aftermarketpl
 
 import (
-	"encoding/json"
+	"bytes"
 	"io/ioutil"
+	"log"
 	"net/http"
-	"strings"
-)
 
+	"github.com/google/go-querystring/query"
+)
+//Aftermarketpl structs holds information neede to perform API request
 type Aftermarketpl struct {
 	url    string
 	key    string
 	secret string
 }
 
+//New creates new instace of Aftermarketpl struct with default URL
 func New(key, secret string) *Aftermarketpl {
 	return &Aftermarketpl{
 		key:    key,
@@ -21,7 +24,8 @@ func New(key, secret string) *Aftermarketpl {
 	}
 }
 
-func NewCustomUrl(key, secret, url string) *Aftermarketpl {
+//NewCustomURL creates new instace of Aftermarketpl struct with custom URL
+func NewCustomURL(key, secret, url string) *Aftermarketpl {
 	return &Aftermarketpl{
 		key:    key,
 		secret: secret,
@@ -29,22 +33,24 @@ func NewCustomUrl(key, secret, url string) *Aftermarketpl {
 	}
 }
 
+//Send is basic function to send struct by request
 func (a *Aftermarketpl) Send(command string, params interface{}) ([]byte, error) {
 	requestURL := a.url + command
 
-	requestBody, err := json.Marshal(params)
+	requestBody, err := query.Values(params)
+	if err != nil {
+		return nil, err
+	}
+
+	log.Printf(string(requestBody.Encode()))
+
+	request, err := http.NewRequest("POST", requestURL, bytes.NewBufferString(requestBody.Encode()))
 
 	if err != nil {
 		return nil, err
 	}
 
-	request, err := http.NewRequest("POST", requestURL, strings.NewReader(string(requestBody)))
-
-	if err != nil {
-		return nil, err
-	}
-
-	request.Header.Set("Content-Type", "application/json")
+	request.Header.Set("Content-Type", "application/x-www-form-urlencoded; param=value")
 	request.SetBasicAuth(a.key, a.secret)
 
 	client := &http.Client{}
