@@ -15,7 +15,7 @@ type domainGetResponse struct {
 	Data DomainGetDataResponse `json:"data"`
 }
 
-// DomainGet  returns the domain information on user account.
+// DomainGet returns the domain information on user account.
 func (a *Aftermarketpl) DomainGet(name string) (*DomainGetDataResponse, error) {
 	d := domainGetResponse{}
 	err := a.Do("/domain/get", domainGetRequest{Name: name}, &d)

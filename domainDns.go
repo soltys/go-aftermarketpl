@@ -19,6 +19,6 @@ type DomainDNSListEntry struct {
 // DomainDNSList returns the list of domain DNS entries.
 func (a *Aftermarketpl) DomainDNSList(name string) ([]DomainDNSListEntry, error) {
 	d := domainDNSListResponse{}
-	err := a.Do("/domain/get", domainDNSListRequest{Name: name}, &d)
+	err := a.Do("/domain/dns/list", domainDNSListRequest{Name: name}, &d)
 	return d.Data, err
 }
