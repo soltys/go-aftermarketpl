@@ -1,18 +1,24 @@
 package aftermarketpl
 
-import "log"
-
 type domainDNSListRequest struct {
 	Name string `url:"name"`
 }
 
-// DomainDNSList returns the list of domain DNS entries.
-func (a *Aftermarketpl) DomainDNSList(name string) error {
-	response, err := a.Send("/domain/dns/list", domainDNSListRequest{Name: name})
-	log.Println(string(response))
-	if err != nil {
-		return err
-	}
+type domainDNSListResponse struct {
+	Data []DomainDNSListEntry `json:"data"`
+}
 
-	return nil
+//DomainDNSListEntry represents DNS entry
+type DomainDNSListEntry struct {
+	Name    string `json:"name"`
+	Value   string `json:"value"`
+	EntryID int    `json:"entryId"`
+	Type    string `json:"type"`
+}
+
+// DomainDNSList returns the list of domain DNS entries.
+func (a *Aftermarketpl) DomainDNSList(name string) ([]DomainDNSListEntry, error) {
+	d := domainDNSListResponse{}
+	err := a.Do("/domain/get", domainDNSListRequest{Name: name}, &d)
+	return d.Data, err
 }
