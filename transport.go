@@ -11,6 +11,9 @@ import (
 	"github.com/google/go-querystring/query"
 )
 
+type emptyRequest struct {
+}
+
 type aftermarketResponse struct {
 	Ok     int    `json:"ok"`
 	Status int    `json:"status"`

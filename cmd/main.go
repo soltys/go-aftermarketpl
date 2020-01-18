@@ -15,7 +15,6 @@ func main() {
 	domainInfo, _ := client.DomainGet("soltysiak.it")
 
 	fmt.Println(domainInfo.Name)
-
 }
 
 func getenv(key string) (string, error) {
